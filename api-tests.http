@@ -1,0 +1,113 @@
+@baseUrl = http://localhost:5000/api
+@authToken = {{login.response.body.token}}
+
+@requestId = {{requestId}}
+
+### Register a new user
+# @name register
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "testuser@example.com",
+  "password": "password123",
+  "role": "donor",
+  "name": "Test User",
+  "phoneNo": "1234567890"
+}
+
+### Login
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "testuser@example.com",
+  "password": "password123"
+}
+
+### Get user profile
+GET {{baseUrl}}/auth/profile
+Authorization: Bearer {{authToken}}
+
+### Update user profile
+PATCH {{baseUrl}}/auth/profile
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Updated Test User",
+  "phoneNo": "9876543210"
+}
+
+### Get donor donations
+GET {{baseUrl}}/donors/donations
+Authorization: Bearer {{authToken}}
+
+### Create a new donation
+POST {{baseUrl}}/donors/donations
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "bloodType": "A+",
+  "units": 1
+}
+
+### Check donor eligibility
+GET {{baseUrl}}/donors/eligibility
+Authorization: Bearer {{authToken}}
+
+### Get recipient requests
+GET {{baseUrl}}/recipients/requests
+Authorization: Bearer {{authToken}}
+
+### Create a new blood request
+POST {{baseUrl}}/recipients/requests
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "bloodType": "A+",
+  "units": 2,
+  "urgency": "high"
+}
+
+### Update a blood request
+PATCH {{baseUrl}}/recipients/requests/{{requestId}}
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "status": "cancelled"
+}
+
+### Get blood bank inventory
+GET {{baseUrl}}/blood-bank/inventory
+Authorization: Bearer {{authToken}}
+
+### Add to blood bank inventory
+POST {{baseUrl}}/blood-bank/inventory
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "bloodType": "O+",
+  "units": 3,
+  "donorId": "{{donorId}}"
+}
+
+### Get blood requests (for staff)
+GET {{baseUrl}}/blood-bank/requests
+Authorization: Bearer {{authToken}}
+
+### Update a blood request (for staff)
+PATCH {{baseUrl}}/blood-bank/requests/{{requestId}}
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "status": "allocated",
+  "units": 2
+}
+
